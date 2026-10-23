@@ -1,13 +1,12 @@
 #pragma once
 #include <string>
 
-// Товар с наименованием в динамической памяти.
 class Goods {
 private:
-    char* name;                // Собственный массив символов с названием товара.
+    char* name;                // Собственный массив символов с названием товара(динамич).
     std::string receiptDate;  // Дата получения товара.
-    double price;             // Цена одной единицы товара.
-    int quantity;             // Количество единиц товара.
+    double price;             // Цена одного товара.
+    int quantity;             // Количество товара.
 
 public:
     Goods(); // Создаёт пустой товар с нулевыми ценой и количеством.
@@ -22,7 +21,7 @@ public:
     void setPrice(double price);       // Устанавливает положительную цену.
     void setQuantity(int quantity);    // Устанавливает неотрицательное количество.
     
-    // Чтение полей без изменения объекта.
+    // Возвращают поля приватные, для чтения
     const char* getName() const;
     double getPrice() const;
     int getQuantity() const;

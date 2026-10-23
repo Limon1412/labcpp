@@ -39,14 +39,11 @@ Goods::Goods(const Goods& other)
 Goods::~Goods() {
     std::cout << "Destuction " << name << "\n";
 
-    // Для массива, выделенного через new[], используется delete[].
     delete[] name;
 }
 
 Goods& Goods::operator=(const Goods& other) {
-    // При присваивании объекта самому себе ничего менять не нужно.
     if (this != &other) {
-        // Сначала создаём копию названия, затем освобождаем старый массив.
         char* newName = new char[std::strlen(other.name) + 1];
 
         std::strcpy(newName, other.name);
@@ -58,8 +55,7 @@ Goods& Goods::operator=(const Goods& other) {
         price = other.price;
         quantity = other.quantity;
     }
-
-    // Возвращаем ссылку на текущий объект, чтобы работали цепочки a = b = c.
+    
     return *this;
 }
 
