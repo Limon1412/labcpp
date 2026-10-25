@@ -1,4 +1,6 @@
 debug.log
+*.exe
+tempCodeRunnerFile.cpp
 Lab1/app_debug.exe
 Lab1/app_nodebug.exe
 Lab1/debug_check.gdb

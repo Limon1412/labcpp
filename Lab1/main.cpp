@@ -24,7 +24,14 @@ int main() {
 
     // Создаётся новый объект( конструктор копирования).
     Goods goods3 = goods2;
-    
+
+    // проверяем глубокое копирование
+    if (goods2.getName() != goods3.getName()) {
+        std::cout << "Different addresses" << "\n";
+    } else {
+        std::cout << "Same addresses" << "\n";
+    }
+     
     // goods1 уже существует вызывается оператор присваивания.
     goods1 = goods3;
     // Демонстрация всех трёх геттеров.

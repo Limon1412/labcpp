@@ -14,7 +14,11 @@
                 "${workspaceFolder}/Lab1/app.exe"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "C:/Windows/System32/cmd.exe",
+                    "args": ["/d", "/c"]
+                }
             },
             "problemMatcher": [
                 "$gcc"
