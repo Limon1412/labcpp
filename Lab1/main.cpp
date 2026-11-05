@@ -4,6 +4,8 @@
 
 
 int main() {
+    //lab1
+    std::cout << "----------------Lab1------------------\n";
     Goods goods1;
     std::cout << goods1.toString() << "\n\n";
 
@@ -33,5 +35,36 @@ int main() {
 
     Goods* goods4 = new Goods("Пк", "09.09.2009", 30000, 5);
     std::cout << goods4->toString() << "\n\n";
+
+
+    //lab2
+    std::cout << "----------------Lab2------------------\n";
+    std::cout << "Объекты до создания 5-8: " << Goods::alive() << "\n";
+    goods1.setPrice(100);
+    goods1.setQuantity(10);
+    goods3.setPrice(200);
+    goods3.setQuantity(2); //goods1 и goods2 одинаковые кроме количества и цены
+
+    Goods goods5 = goods1 + goods3;
+    Goods goods6 = goods1 - goods3;
+
+    std::cout << "a + b " << goods5.toString() << "\n"; 
+    std::cout << "a - b" << goods6.toString() << "\n\n";
+
+    std::cout<< static_cast<double>(goods1) << "\n\n";
+
+    Goods goods7 = goods1++;
+    std::cout << "copy: " << goods7.toString() <<"\n";
+    std::cout << "original: " << goods1.toString() <<"\n\n";
+
+    Goods goods8 = ++goods1;
+    std::cout << "copy: " << goods8.toString() <<"\n";
+    std::cout << "original: " << goods1.toString() <<"\n\n";
+
+    std::cout << "Объекты после создания 5-8: " << Goods::alive() << "\n";
+
+
     delete goods4;
+
+    std::cout << "Объекты после удаления goods4: " << Goods::alive() << "\n";
 }
