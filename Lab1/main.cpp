@@ -1,4 +1,5 @@
 #include "Goods.h"
+#include "GoodsService.h"
 
 #include <iostream>
 
@@ -43,7 +44,7 @@ int main() {
     goods1.setPrice(100);
     goods1.setQuantity(10);
     goods3.setPrice(200);
-    goods3.setQuantity(2); //goods1 и goods2 одинаковые кроме количества и цены
+    goods3.setQuantity(2); //goods1 и goods3 одинаковые кроме количества и цены
 
     Goods goods5 = goods1 + goods3;
     Goods goods6 = goods1 - goods3;
@@ -67,4 +68,54 @@ int main() {
     delete goods4;
 
     std::cout << "Объекты после удаления goods4: " << Goods::alive() << "\n";
+
+    //lab3
+    std::cout << "----------------Lab3------------------\n";
+    Goods goodInOut;
+
+    std::cout << "ОПЕРАТОРЫ << И >>\n\n";
+
+    std::cout << "Введите товар в формате:\n"
+              << "Название|Дата|Цена|Количество\n";
+
+    if (std::cin >> goodInOut) {
+        std::cout << "Вы ввели:\n" << goodInOut << '\n';
+    } else {
+        std::cout << "Ошибка ввода!\n";
+    }
+
+    std::cout << "ТЕКСТОВЫЕ ФАЙЛЫ\n\n";
+
+    GoodsService goodsService1;
+    goodsService1.addGood(Goods("Телефон", "14.12.2007", 150000, 25));
+    goodsService1.addGood(Goods("Ноутбук", "15.12.2007", 56789, 12));
+    goodsService1.addGood(Goods("Планшет", "16.12.2007", 78123, 9));
+    if (goodsService1.writeToFile("goods.txt")) {
+        std::cout << "Товары сохранены\n";
+    } else {
+        std::cout << "Ошибка сохранения\n";
+    }
+
+    GoodsService goodsService2;
+    if (goodsService2.loadFromFile("goods.txt")) {
+        goodsService2.printAllGoods();
+    } else {
+        std::cout << "Ошибка загрузки\n";
+    }
+
+    std::cout << "БИНАРНЫЕ ФАЙЛЫ\n\n";
+    
+    if (goodsService1.writeToFileBinary("goods.dat")) {
+        std::cout << "Товары сохранены(БИНАРНЫЙ)\n";
+    } else {
+        std::cout << "Ошибка сохранения(БИНАРНЫЙ)\n";
+    }
+
+    goodsService2.vectorClear();
+    if (goodsService2.loadFromFileBinary("goods.dat")) {
+        goodsService2.printAllGoods();
+    } else {
+        std::cout << "Ошибка загрузки(БИНАРНЫЙ)\n";
+    }
+
 }

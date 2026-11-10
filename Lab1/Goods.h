@@ -1,5 +1,8 @@
 #pragma once
+
+#include <iostream>
 #include <string>
+
 
 class Goods {
 private:
@@ -36,6 +39,9 @@ public:
     friend Goods operator-(const Goods& left, const Goods& right);
     Goods& operator++();
     Goods operator++(int);
+
+    friend std::ostream& operator<<(std::ostream& os, const Goods& item);
+    friend std::istream& operator>>(std::istream& is, Goods& item);
 
     explicit operator double() const;
 

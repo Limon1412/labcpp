@@ -108,10 +108,39 @@ Goods Goods::operator++(int) {
     return copyGoods;
 }
 
+std::ostream& operator<<(std::ostream& os, const Goods& item) {
+    os << item.getName() << '|'
+        << item.getReceiptDate() << '|'
+        << item.getPrice() << '|'
+        << item.getQuantity();
+
+    return os;
+}
+
+std::istream& operator>>(std::istream& is, Goods& item) {
+    std::string name, receiptDate;
+    double price;
+    int quantity;
+    char separator;
+
+    if (getline(is >> std::ws, name, '|') &&
+        getline(is, receiptDate, '|') &&
+        (is >> price) &&
+        is.get(separator) && separator == '|' &&
+        (is >> quantity) &&
+        price >= 0 && quantity >= 0) {
+        item = Goods(name.c_str(), receiptDate, price, quantity);
+    } else {
+        is.setstate(std::ios::failbit);
+    }
+
+    return is;
+}
+
 Goods::operator double() const {
     return this->getPrice() * this->getQuantity();
 }
-
+ 
 void Goods::setPrice(double price) {
     if (price > 0) {
         this->price = price;
