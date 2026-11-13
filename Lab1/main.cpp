@@ -1,7 +1,10 @@
 #include "Goods.h"
+#include "ChildGoods.h"
+#include "MilkGoods.h"
 #include "GoodsService.h"
 
 #include <iostream>
+#include <cstring>
 
 
 int main() {
@@ -10,7 +13,7 @@ int main() {
     Goods goods1;
     std::cout << goods1.toString() << "\n\n";
 
-    Goods goods2("Ноутбук", "10.10.2010", 15000, 15);
+    Goods goods2("Ноутбук", "2010.10.10", 15000, 15);
 
 
     goods2.setPrice(20000);
@@ -34,7 +37,7 @@ int main() {
     goods1 = goods3;
     std::cout << "Название: " << goods1.getName() << "\nЦена: " << goods1.getPrice() << "\nКоличество: " << goods1.getQuantity() << "\n";
 
-    Goods* goods4 = new Goods("Пк", "09.09.2009", 30000, 5);
+    Goods* goods4 = new Goods("Пк", "2009.09.09", 30000, 5);
     std::cout << goods4->toString() << "\n\n";
 
 
@@ -87,9 +90,9 @@ int main() {
     std::cout << "ТЕКСТОВЫЕ ФАЙЛЫ\n\n";
 
     GoodsService goodsService1;
-    goodsService1.addGood(Goods("Телефон", "14.12.2007", 150000, 25));
-    goodsService1.addGood(Goods("Ноутбук", "15.12.2007", 56789, 12));
-    goodsService1.addGood(Goods("Планшет", "16.12.2007", 78123, 9));
+    goodsService1.addGood(Goods("Телефон", "2007.12.14", 150000, 25));
+    goodsService1.addGood(Goods("Ноутбук", "2007.12.15", 56789, 12));
+    goodsService1.addGood(Goods("Планшет", "2007.12.16", 78123, 9));
     if (goodsService1.writeToFile("goods.txt")) {
         std::cout << "Товары сохранены\n";
     } else {
@@ -118,4 +121,54 @@ int main() {
         std::cout << "Ошибка загрузки(БИНАРНЫЙ)\n";
     }
 
+    //lab4
+    std::cout << "----------------Lab4------------------\n";
+    std::cout << "ДЕТСКИЕ ТОВАРЫ\n\n";
+
+    ChildGoods childGood("Конструктор", "2022.02.22", 2500, 10, 6, "building blocks");
+    std::cout << childGood.toString();
+
+    std::cout << "проверка при 5 годах:";
+    std::cout << childGood.checkAge(5) << '\n';
+
+    std::cout << "проверка при 6 годах:";
+    std::cout << childGood.checkAge(6) << '\n';
+
+    ChildGoods toyCopy = childGood;
+    std::cout << "COPY: " << toyCopy.toString() << '\n';
+    if (toyCopy.getName() == childGood.getName()) {
+        std::cout << "the same addresses of string`s names(toy)\n";
+    } else {
+        std::cout << "different addresses of string`s names(toy)\n";
+    }
+
+    Goods& virtualCallToy = childGood;
+    std::cout << virtualCallToy.toString() << '\n';
+
+    std::cout << "МОЛОЧНЫЕ ТОВАРЫ\n\n";
+
+    MilkGoods milkGood("молоко","2026.11.13", 100, 19, "2026.11.15");
+    std::cout << "ПЕРЕСЧЕТ ЦЕНЫ ПРИ НЕИСТЕЧЕННОМ СРОКЕ: ";
+    std::cout << milkGood.recalculationPrice("2026.11.15", 20) << '\n';
+    std::cout << milkGood.getPrice() << '\n';
+
+    std::cout << "ПЕРЕСЧЕТ ЦЕНЫ ПРИ ИСТЕЧЕННОМ СРОКЕ: ";
+    std::cout << milkGood.recalculationPrice("2026.11.16", 20) << '\n';
+    std::cout << milkGood.getPrice() << '\n';
+
+    std::cout << "ПЕРЕСЧЕТ ЦЕНЫ ПРИ ИСТЕЧЕННОМ СРОКЕ НО ПОВТОРНО: ";
+    std::cout << milkGood.recalculationPrice("2026.11.16", 20) << '\n';
+    std::cout << milkGood.getPrice() << '\n';
+
+    MilkGoods milkCopy = milkGood;
+    if (milkCopy.getName() == milkGood.getName()) {
+        std::cout << "the same addresses of string`s names(milk)\n";
+    } else {
+        std::cout << "different addresses of string`s names(milk)\n";
+    }
+
+    std::cout << "Copy: " << milkCopy.toString() << '\n';
+
+    Goods& virtualCallMilk = milkGood;
+    std::cout << virtualCallMilk.toString() << '\n'; 
 }

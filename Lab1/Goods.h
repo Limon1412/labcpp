@@ -20,7 +20,7 @@ public:
           double price, 
           int quantity);
     Goods(const Goods& other);
-    ~Goods(); 
+    virtual ~Goods(); 
 
     void setPrice(double price);     
     void setQuantity(int quantity);  
@@ -30,7 +30,7 @@ public:
     double getPrice() const;
     int getQuantity() const;
 
-    std::string toString() const; 
+    virtual std::string toString() const; 
     void markup(double percent); 
     void discount(double percent);
 
