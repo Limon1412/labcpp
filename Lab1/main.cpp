@@ -2,6 +2,7 @@
 #include "ChildGoods.h"
 #include "MilkGoods.h"
 #include "GoodsService.h"
+#include "GoodsList.h"
 
 #include <iostream>
 #include <cstring>
@@ -170,5 +171,48 @@ int main() {
     std::cout << "Copy: " << milkCopy.toString() << '\n';
 
     Goods& virtualCallMilk = milkGood;
-    std::cout << virtualCallMilk.toString() << '\n'; 
+    std::cout << virtualCallMilk.toString() << '\n';
+    
+    //lab5
+    std::cout << "----------------Lab5------------------\n";
+    GoodsList* goodsList = new GoodsList();
+    goodsList->printAllGoods();
+    goodsList->deleteLastGood();
+    goodsList->deleteGoodByIndex(0);
+
+    goodsList->addGood(goods2);
+    goodsList->addGood(milkGood);
+    goodsList->addGood(childGood);
+    goodsList->printAllGoods();
+    std::cout << "--------------------------------------\n";
+
+    goodsList->insertGood(0, goodInOut);
+    goodsList->insertGood(2, goods1);
+    goodsList->insertGood(5, goods8);
+    goodsList->printAllGoods();
+    std::cout << "--------------------------------------\n";
+
+    Goods* foundGood1 = goodsList->findGoodByName("молоко");
+    Goods* foundGood2 = goodsList->findGoodByName("сметана");
+
+    if(foundGood1 != nullptr){
+        std::cout << "foundGood1: " << foundGood1->toString() << '\n';
+    } else {
+        std::cout << "Good with your name wasn`t found" << '\n';
+    }
+    if(foundGood2 != nullptr){
+        std::cout << "foundGood2: " << foundGood2->toString() << '\n';
+    } else {
+        std::cout << "Good with your name wasn`t found" << '\n';
+    }
+    std::cout << "--------------------------------------\n";
+
+    goodsList->deleteLastGood();
+    goodsList->printAllGoods();
+
+    goodsList->deleteGoodByIndex(0);
+    goodsList->printAllGoods();
+    std::cout << "--------------------------------------\n";
+
+    delete goodsList;
 }

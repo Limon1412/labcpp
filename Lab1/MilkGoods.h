@@ -16,6 +16,7 @@ public:
               std::string expirationDate);
 
     std::string getExpirationDate() const;
+    
     bool recalculationPrice(std::string currentDate, int percentageReduction);
 
     std::string toString() const override;

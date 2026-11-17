@@ -131,9 +131,73 @@ std::istream& operator>>(std::istream& is, Goods& item) {
         price >= 0 && quantity >= 0) {
         item = Goods(name.c_str(), receiptDate, price, quantity);
     } else {
-        is.setstate(std::ios::failbit);
+        is.setstate(std::ios::failbit); 
     }
 
+    return is;
+}
+
+std::ofstream& operator<<(std::ofstream& os, const Goods& item) {
+    int nameLength = std::strlen(item.getName());
+    os.write(reinterpret_cast<const char*>(&nameLength), sizeof(nameLength));
+    os.write(item.getName(), nameLength);
+
+    int dateLength = item.getReceiptDate().size();
+    os.write(reinterpret_cast<const char*>(&dateLength), sizeof(dateLength));
+    os.write(item.getReceiptDate().c_str(), dateLength);
+
+    double price = item.getPrice();
+    os.write(reinterpret_cast<const char*>(&price), sizeof(price));
+
+    int quantity = item.getQuantity();
+    os.write(reinterpret_cast<const char*>(&quantity), sizeof(quantity));
+
+    return os;
+}
+
+std::ifstream& operator>>(std::ifstream& is, Goods& item) {
+    int nameLength = 0;
+    if(!is.read(reinterpret_cast<char*>(&nameLength), sizeof(nameLength)) ||
+        nameLength < 0 || nameLength > Goods::maxStringLength) {
+            is.setstate(std::ios::failbit);
+            return is;
+    }
+    std::string name(nameLength, '\0');
+    if (!is.read(name.data(), nameLength)) {
+        is.setstate(std::ios::failbit);
+        return is;
+    }
+
+    int dateLength = 0;
+    if (!is.read(reinterpret_cast<char*>(&dateLength), sizeof(dateLength)) ||
+        dateLength < 0 || dateLength > Goods::maxStringLength) {
+            is.setstate(std::ios::failbit);
+            return is;
+    }
+    std::string date(dateLength, '\0');
+    if (!is.read(date.data(), dateLength)) {
+        is.setstate(std::ios::failbit);
+        return is;
+    }
+    
+    double price = 0;
+    if (!is.read(reinterpret_cast<char*>(&price), sizeof(price))) {
+        is.setstate(std::ios::failbit);
+        return is;
+    }
+
+    int quantity = 0;
+    if (!is.read(reinterpret_cast<char*>(&quantity), sizeof(quantity))) {
+        is.setstate(std::ios::failbit);
+        return is;
+    }
+
+    if(price < 0 || quantity < 0 ) {
+        is.setstate(std::ios::failbit);
+        return is;
+    }
+
+    item = Goods(name.c_str(), date, price, quantity);
     return is;
 }
 

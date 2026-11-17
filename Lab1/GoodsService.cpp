@@ -55,9 +55,10 @@ bool GoodsService::writeToFile(const std::string& file) const {
     }
 
     out.precision(17);
+    std::ostream& textOut = out;
 
     for (const Goods& item : goods) {
-        out << item << '\n';
+        textOut << item << '\n';
     }
 
     out.close();
@@ -70,19 +71,20 @@ bool GoodsService::loadFromFile(const std::string& file) {
         return false;
     }
 
+    std::istream& textIn = in;
     Goods item;
     while (true) {
-        in >> std::ws;
+        textIn >> std::ws;
 
-        if (in.bad()) {
+        if (textIn.bad()) {
             return false;
         }
 
-        if (in.eof()) {
+        if (textIn.eof()) {
             return true;
         }
 
-        if (!(in >> item)) {
+        if (!(textIn >> item)) {
             return false;
         }
 
@@ -90,12 +92,11 @@ bool GoodsService::loadFromFile(const std::string& file) {
     }   
 }
 
-const int maxStringLength = 10000;
 
 bool GoodsService::writeToFileBinary(const std::string& file) const {
     for (const Goods& good : goods) {
-        if (std::strlen(good.getName()) > maxStringLength ||
-            good.getReceiptDate().size() > maxStringLength) {
+        if (std::strlen(good.getName()) > Goods::maxStringLength ||
+            good.getReceiptDate().size() > Goods::maxStringLength) {
                 return false;
             }
     }
@@ -110,19 +111,7 @@ bool GoodsService::writeToFileBinary(const std::string& file) const {
     outBinary.write(reinterpret_cast<const char*>(&quantityGoods), sizeof(quantityGoods));
 
     for (const Goods& good : goods) {
-        int nameLength = std::strlen(good.getName());
-        outBinary.write(reinterpret_cast<const char*>(&nameLength), sizeof(nameLength));
-        outBinary.write(good.getName(), nameLength);
-
-        int dateLength = good.getReceiptDate().size();
-        outBinary.write(reinterpret_cast<const char*>(&dateLength), sizeof(dateLength));
-        outBinary.write(good.getReceiptDate().c_str(), dateLength);
-
-        double price = good.getPrice();
-        outBinary.write(reinterpret_cast<const char*>(&price), sizeof(price));
-
-        int quantity = good.getQuantity();
-        outBinary.write(reinterpret_cast<const char*>(&quantity), sizeof(quantity));
+        outBinary << good;
     }
 
     outBinary.close();
@@ -143,41 +132,11 @@ bool GoodsService::loadFromFileBinary(const std::string& file) {
     }
 
     for (int i = 0; i < quantityGoods; i++) {
-        int nameLength = 0;
-        if(!inBinary.read(reinterpret_cast<char*>(&nameLength), sizeof(nameLength)) ||
-           nameLength < 0 || nameLength > maxStringLength) {
-                return false;
-        }
-        std::string name(nameLength, '\0');
-        if (!inBinary.read(name.data(), nameLength)) {
+        Goods good;
+        if (!(inBinary >> good)) {
             return false;
         }
 
-        int dateLength = 0;
-        if (!inBinary.read(reinterpret_cast<char*>(&dateLength), sizeof(dateLength)) ||
-            dateLength < 0 || dateLength > maxStringLength) {
-                return false;
-        }
-        std::string date(dateLength, '\0');
-        if (!inBinary.read(date.data(), dateLength)) {
-            return false;
-        }
-        
-        double price = 0;
-        if (!inBinary.read(reinterpret_cast<char*>(&price), sizeof(price))) {
-            return false;
-        }
-
-        int quantity = 0;
-        if (!inBinary.read(reinterpret_cast<char*>(&quantity), sizeof(quantity))) {
-            return false;
-        }
-
-        if(price < 0 || quantity < 0 ) {
-            return false;
-        }
-
-        Goods good(name.c_str(), date, price, quantity);
         addGood(good);
     }
 

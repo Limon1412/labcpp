@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <fstream>
 #include <string>
 
 
@@ -14,6 +15,8 @@ private:
     inline static int aliveObjects = 0;
 
 public:
+    static constexpr int maxStringLength = 10000;
+
     Goods(); 
     Goods(const char* name,
           std::string receiptDate,
@@ -42,6 +45,8 @@ public:
 
     friend std::ostream& operator<<(std::ostream& os, const Goods& item);
     friend std::istream& operator>>(std::istream& is, Goods& item);
+    friend std::ofstream& operator<<(std::ofstream& os, const Goods& item);
+    friend std::ifstream& operator>>(std::ifstream& is, Goods& item);
 
     explicit operator double() const;
 

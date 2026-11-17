@@ -10,6 +10,10 @@
                 "-std=c++20",
                 "${workspaceFolder}/Lab1/main.cpp",
                 "${workspaceFolder}/Lab1/Goods.cpp",
+                "${workspaceFolder}/Lab1/GoodsList.cpp",
+                "${workspaceFolder}/Lab1/GoodsService.cpp",
+                "${workspaceFolder}/Lab1/ChildGoods.cpp",
+                "${workspaceFolder}/Lab1/MilkGoods.cpp",
                 "-o",
                 "${workspaceFolder}/Lab1/app.exe"
             ],
